@@ -1,4 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
+import { useState } from "react";
 const GET_courses = gql`
   query {
     getAllCourses {
@@ -9,16 +10,15 @@ const GET_courses = gql`
   }
 `;
 
-const GET_course = 
-  gql`
-    query ($id: ID){
-      getCourse(id: $id) {
-        id
-        title
-        description
-      }
+const GET_course = gql`
+  query ($id: ID) {
+    getCourse(id: $id) {
+      id
+      title
+      description
     }
-  `;
+  }
+`;
 
 function GetAllCourses() {
   const { loading, error, data } = useQuery(GET_courses);
@@ -27,54 +27,66 @@ function GetAllCourses() {
   if (error) return <p>Error :c </p>;
 
   return data.getAllCourses.map(({ id, title, description }) => (
-    <div key={id}>
+    <div key={id} style={{ height: "150px" }}>
       <h3>{title}</h3>
       <p>
         ID:<i>{id}</i>
       </p>
       <b>About this course:</b>
       <p>{description}</p>
-      <br />
+      <hr />
     </div>
   ));
 }
 
-function GetCourseByID({idCourse}) {
-  
+function GetCourseByID({ idCourse }) {
   const { loading, error, data } = useQuery(GET_course, {
     variables: {
-      id: idCourse
-    }
+      id: idCourse,
+    },
   });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :c </p>;
-  const {id, title, description} = data.getCourse;
+  const { id, title, description } = data.getCourse;
 
   return (
-    
     <div key={id}>
-      <h2>Find course ID: {idCourse}</h2>
-      <hr></hr>
       <h3>{title}</h3>
       <p>
         ID:<i>{id}</i>
       </p>
       <b>About this course:</b>
       <p>{description}</p>
-      <br />
+      <hr></hr>
     </div>
   );
-  
 }
 
 function App() {
+  const [id, setId] = useState("");
   return (
     <div>
       <h2>ALL COURSES</h2>
       <br />
-      <GetAllCourses />
+      <div
+        style={{
+          height: "20rem",
+          border: "solid 0.3px #0236",
+          borderColor: "black",
+          overflow: "auto",
+          padding: "40px",
+        }}
+      >
+        <GetAllCourses />
+      </div>
       <hr></hr>
-      <GetCourseByID idCourse={"630c4e3cff694e8c68b2d2d4"}/>
+      <h2>Find course ID.</h2>
+      <p>
+        <b>Searching: </b>
+        <input onChange={(event) => setId(event.target.value)} type="text" />
+      </p>
+
+      <GetCourseByID idCourse={id} />
     </div>
   );
 }
