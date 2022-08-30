@@ -1,14 +1,14 @@
 import {useState} from 'react';
 import { useMutation } from "@apollo/client";
 import {Create_Course, DELETE_course} from '../../gql/mutationCourse'
-import {GET_courses, GET_course} from '../../gql/queryCourse'
+import {GET_courses} from '../../gql/queryCourse'
 
 function CreateCourse() {
     let title, description;
     const [createCourse, { data, error, loading }] = useMutation(Create_Course,{
       refetchQueries: [
-        {query: [GET_course, GET_courses]},
-        ["getCourses", "getCourse"]
+        {query: GET_courses},
+        "getCourses"
       ]
     });
   
