@@ -1,8 +1,9 @@
 import {GetAllCourses, GetCourseByID} from './course.query';
-import {CreateCourse, DeleteCourse} from './course.mutation';
+import {CreateCourse, DeleteCourse, UpdateCourse} from './course.mutation';
 export {
     GetAllCourses,
     GetCourseByID,
     CreateCourse,
-    DeleteCourse
+    DeleteCourse,
+    UpdateCourse
 }

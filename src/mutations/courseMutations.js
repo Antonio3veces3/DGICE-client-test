@@ -1,4 +1,4 @@
-import {CreateCourse, DeleteCourse} from '../resolvers/course'
+import {CreateCourse, DeleteCourse, UpdateCourse} from '../resolvers/course'
 
 function AppMutations() {
   return (
@@ -6,6 +6,8 @@ function AppMutations() {
       <CreateCourse />
       <hr></hr>
       <DeleteCourse />
+      <hr></hr>
+      <UpdateCourse/>
     </div>
   );
 }

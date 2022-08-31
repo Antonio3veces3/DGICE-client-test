@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import { useMutation } from "@apollo/client";
-import {Create_Course, DELETE_course} from '../../gql/mutationCourse'
+import {Create_Course, DELETE_course, UPDATE_course} from '../../gql/mutationCourse'
 import {GET_courses} from '../../gql/queryCourse'
 
 function CreateCourse() {
@@ -88,7 +88,56 @@ function CreateCourse() {
     );
   }
 
+  function UpdateCourse() {
+    const [title, setTitle] = useState();
+    const [description, setDescription] = useState();
+    const [id, setID] = useState();
+    
+    const [updateCourse, { data, error, loading }] = useMutation(UPDATE_course);
+  
+    if (loading) return "Updating...";
+    if (error) return console.log(error);
+  
+    return (
+      <div>
+        <h2>
+          <b>Update a course by ID:</b>
+        </h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            updateCourse({
+              variables: {updateCourseId: `${id}` , title: `${title}`, description: `${description}`}
+            })
+          }}
+        >
+          <p>
+            Id:
+            <input
+              onChange={(event) => setID(event.target.value)} type="text"
+            />
+          </p>
+          <p>
+            Title:
+            <input
+              onChange={(event) => setTitle(event.target.value)} type="text"
+            />
+          </p>
+  
+          <p>
+            Description:
+            <input
+             onChange={(event) => setDescription(event.target.value)} type="text"
+            />
+          </p>
+  
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    )
+  }
   export{
     CreateCourse,
-    DeleteCourse
+    DeleteCourse,
+    UpdateCourse
   }

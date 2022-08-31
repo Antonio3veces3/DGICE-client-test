@@ -17,7 +17,21 @@ const DELETE_course = gql`
   }
 `;
 
+const UPDATE_course = gql`
+mutation ($updateCourseId: ID!, $title: String, $description: String) {
+  updateCourse(id: $updateCourseId, course: {
+    title: $title,
+    description: $description
+  }) {
+    id
+    title
+    description
+  }
+}
+`;
+
 export {
     Create_Course,
-    DELETE_course
+    DELETE_course,
+    UPDATE_course
 }
